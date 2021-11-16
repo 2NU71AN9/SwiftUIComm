@@ -7,9 +7,19 @@
 
 import SwiftUI
 
-struct ProfileView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct ProfileView: StateView {
+    
+    @EnvironmentObject var shared: AccountServicer
+    
+    var master: some View {
+        Text("我的")
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button("退出登录") {
+                        shared.logout()
+                    }
+                }
+            }
     }
 }
 

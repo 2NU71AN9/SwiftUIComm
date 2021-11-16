@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Tabbar: View {
+    @EnvironmentObject var shared: AccountServicer
     
     @State private var cur_type: ItemType = .home
     
@@ -30,6 +31,8 @@ struct Tabbar: View {
             }
             .tabItem { Item(type: .profile, cur_type: cur_type) }
             .tag(ItemType.profile)
+        }.sheet(isPresented: $shared.needLogin) {
+            LoginView()
         }
     }
     

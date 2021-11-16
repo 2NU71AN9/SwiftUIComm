@@ -15,6 +15,7 @@ struct SwiftUICommApp: App {
         WindowGroup {
             Tabbar()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+                .environmentObject(AccountServicer.shared)
         }
     }
 }

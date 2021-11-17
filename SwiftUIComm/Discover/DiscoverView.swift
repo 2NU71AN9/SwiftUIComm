@@ -13,7 +13,7 @@ struct DiscoverView: View {
     
     var body: some View {
         Text("发现")
-            .state()
+            .sl_state()
     }
 }
 

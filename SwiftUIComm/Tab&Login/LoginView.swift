@@ -26,7 +26,7 @@ struct LoginView: View {
                 .foregroundColor(.white)
                 .clipShape(Capsule())
         }
-        .state(.noNetwork)
+        .sl_state(.noNetwork)
     }
 }
 

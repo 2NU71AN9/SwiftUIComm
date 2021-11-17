@@ -10,10 +10,13 @@ import SwiftUI
 struct HomeView: View {
 
     @StateObject var vm = HomeViewModel()
-    
+
     var body: some View {
-        Text("首页")
-            .state()
+        NavigationLink {
+            SecondView()
+        } label: {
+            Text("下一页")
+        }.sl_state()
     }
 }
 

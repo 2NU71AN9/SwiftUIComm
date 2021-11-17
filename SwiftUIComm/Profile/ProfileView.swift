@@ -15,13 +15,13 @@ struct ProfileView: View {
     var body: some View {
         Text("我的")
             .toolbar {
-                ToolbarItem(placement: .primaryAction) {
+                ToolbarItem {
                     Button("退出登录") {
                         shared.logout()
                     }
                 }
             }
-            .state()
+            .sl_state()
     }
 }
 

@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct ProfileView: StateView {
+struct ProfileView: View {
     
     @EnvironmentObject var shared: AccountServicer
+    @StateObject var vm = ProfileViewModel()
     
-    var master: some View {
+    var body: some View {
         Text("我的")
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
@@ -20,6 +21,7 @@ struct ProfileView: StateView {
                     }
                 }
             }
+            .state()
     }
 }
 

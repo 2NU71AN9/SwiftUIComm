@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct HomeView: StateView {
+struct HomeView: View {
 
-    @EnvironmentObject var shared: AccountServicer
-
-    var master: some View {
+    @StateObject var vm = HomeViewModel()
+    
+    var body: some View {
         Text("首页")
+            .state()
     }
 }
 
@@ -21,3 +22,4 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
+

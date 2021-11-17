@@ -11,7 +11,10 @@ struct LoginView: View {
     
     @EnvironmentObject var shared: AccountServicer
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
-
+    @StateObject var vm = LoginViewModel()
+    
+    @State var ttt = ""
+    
     var body: some View {
         Button {
             shared.loginSuccess()
@@ -23,6 +26,7 @@ struct LoginView: View {
                 .foregroundColor(.white)
                 .clipShape(Capsule())
         }
+        .state(.noNetwork)
     }
 }
 

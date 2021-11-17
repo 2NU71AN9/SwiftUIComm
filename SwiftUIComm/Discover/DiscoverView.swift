@@ -7,12 +7,13 @@
 
 import SwiftUI
 
-struct DiscoverView: StateView {
+struct DiscoverView: View {
     
-    @EnvironmentObject var shared: AccountServicer
+    @StateObject var vm = DiscoverViewModel()
     
-    var master: some View {
+    var body: some View {
         Text("发现")
+            .state()
     }
 }
 

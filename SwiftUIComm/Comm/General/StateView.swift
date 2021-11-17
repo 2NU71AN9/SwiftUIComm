@@ -7,32 +7,56 @@
 
 import SwiftUI
 
-// 遵守协议者必须添加环境变量 @EnvironmentObject var shared: AccountServicer
-protocol StateView: View {
+struct StateVisitor: ViewModifier {
+    @EnvironmentObject var shared: AccountServicer
     
-    associatedtype myBody: View
-    
-    @ViewBuilder var master: Self.myBody { get }
-    var visitor: AnyView { get }
-    var noNetwork: AnyView { get }
-}
-
-extension StateView {
-    var body: some View {
-        Group {
-            if (AccountServicer.shared.networkStatus == SLNetworkStatus.noNet) {
-                noNetwork
-            } else if (AccountServicer.shared.isLogin) {
-                master
-            } else {
-                visitor
-            }
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if shared.isLogin {
+            content
+        } else {
+            VisitorView()
         }
     }
-    var visitor: AnyView {
-        AnyView(VisitorView())
+}
+
+struct StateNoNetwork: ViewModifier {
+    @EnvironmentObject var shared: AccountServicer
+    
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if shared.networkStatus == .noNet {
+            NoNetworkView()
+        } else {
+            content
+        }
     }
-    var noNetwork: AnyView {
-        AnyView(NoNetworkView())
+}
+
+public enum StateType {
+    case all
+    case visitor
+    case noNetwork
+    case none
+}
+
+public extension View {
+    
+    /// 自动加载VisitorView和NoNetworkView
+    /// - Parameter type: 记载哪个
+    /// - Returns: View
+    func state(_ type: StateType = .all) -> some View {
+        Group {
+            switch type {
+            case .all:
+                self.modifier(StateVisitor()).modifier(StateNoNetwork())
+            case .visitor:
+                self.modifier(StateVisitor())
+            case .noNetwork:
+                self.modifier(StateNoNetwork())
+            case .none:
+                self
+            }
+        }
     }
 }

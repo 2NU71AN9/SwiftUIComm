@@ -32,7 +32,9 @@ struct Tabbar: View {
             .tabItem { Item(type: .profile, cur_type: cur_type) }
             .tag(ItemType.profile)
         }.sheet(isPresented: $shared.needLogin) {
-            LoginView()
+            NavigationView {
+                LoginView().navigationTitle("登录")
+            }
         }
     }
     

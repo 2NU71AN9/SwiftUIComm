@@ -9,6 +9,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SLIKit
 
 class SLNetworkListenManager: NSObject {
 
@@ -72,7 +73,7 @@ extension SLNetworkListenManager {
         }
         alert.addAction(ac1)
         alert.addAction(ac2)
-        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController?.present(alert, animated: true, completion: nil)
+        SL.WINDOW?.rootViewController?.present(alert, animated: true, completion: nil)
     }
     
     @objc public func showAlertIfNetworkStatusWWAN(ignore: (() -> Void)?, goBack: (() -> Void)?) {
@@ -90,7 +91,7 @@ extension SLNetworkListenManager {
         }
         alert.addAction(ac1)
         alert.addAction(ac2)
-        UIApplication.shared.windows.first { $0.isKeyWindow }?.rootViewController?.present(alert, animated: true, completion: nil)
+        SL.WINDOW?.rootViewController?.present(alert, animated: true, completion: nil)
     }
 }
 

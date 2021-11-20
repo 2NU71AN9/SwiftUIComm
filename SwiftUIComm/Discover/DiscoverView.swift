@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import SwiftUIX
+import SLIKit
 
 struct DiscoverView: View {
     
@@ -13,7 +15,6 @@ struct DiscoverView: View {
     
     var body: some View {
         Text("发现")
-            .sl_state()
     }
 }
 

@@ -6,17 +6,23 @@
 //
 
 import SwiftUI
+import Introspect
+import SLIKit
 
 struct HomeView: View {
 
     @StateObject var vm = HomeViewModel()
 
     var body: some View {
-        NavigationLink {
-            SecondView()
-        } label: {
-            Text("下一页")
-        }.sl_state()
+        List {
+            NavigationLink("网络请求") { NetRequestView() }
+            NavigationLink("自定义返回") { SecondView() }
+            NavigationLink("NaviPagerView") { NaviPagerView() }
+            NavigationLink("PagerView") { PagerView() }
+            NavigationLink("下拉刷新&上拉加载") { RefreshView() }
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .sl_state()
     }
 }
 

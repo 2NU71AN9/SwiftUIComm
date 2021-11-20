@@ -13,8 +13,10 @@ struct SecondView: View {
     var body: some View {
         Button("返回") {
             mode.wrappedValue.dismiss()
+        }.sl_pop("点我返回") { pop in
+            pop(true)
         }
-        .navigationTitle("第二页")
+        .navigationTitle("自定义返回")
     }
 }
 

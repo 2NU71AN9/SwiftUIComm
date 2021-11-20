@@ -18,7 +18,7 @@ class AccountServicer: ObservableObject {
         return shared
     }()
     
-    @Published private(set) var isLogin = false
+    @Published private(set) var isLogin = true
     @Published private(set) var networkStatus: SLNetworkStatus = .noNet
     @Published var needLogin = false
 }

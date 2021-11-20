@@ -18,6 +18,8 @@ class AccountServicer: ObservableObject {
         return shared
     }()
     
+    var token: String?
+    
     @Published private(set) var isLogin = true
     @Published private(set) var networkStatus: SLNetworkStatus = .noNet
     @Published var needLogin = false

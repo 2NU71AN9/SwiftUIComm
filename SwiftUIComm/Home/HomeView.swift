@@ -21,7 +21,6 @@ struct HomeView: View {
             NavigationLink("PagerView") { PagerView() }
             NavigationLink("下拉刷新&上拉加载") { RefreshView() }
         }
-        .navigationBarTitleDisplayMode(.inline)
         .sl_state()
     }
 }

@@ -7,5 +7,7 @@ target 'SwiftUIComm' do
   pod 'SLIKit'
   pod 'Introspect'
   pod 'PagerTabStripView'
+  pod 'Moya/Combine'
+  pod 'SwiftyJSON'
   
 end

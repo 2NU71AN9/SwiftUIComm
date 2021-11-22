@@ -5,9 +5,7 @@
 //  Created by 孙梁 on 2020/12/11.
 //
 
-import UIKit
 import Moya
-import SLIKit
 
 public enum APIService {
     /// 登录

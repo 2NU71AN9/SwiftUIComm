@@ -17,7 +17,7 @@ struct ProfileView: View {
             .toolbar {
                 ToolbarItem {
                     Button("退出登录") {
-                        shared.logout()
+                        shared.signOut()
                     }
                 }
             }

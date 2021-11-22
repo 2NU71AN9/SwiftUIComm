@@ -5,10 +5,7 @@
 //  Created by 孙梁 on 2020/12/11.
 //
 
-import UIKit
 import Alamofire
-import RxSwift
-import RxCocoa
 
 enum NetworkReachabilityStatus {
     case unknown
@@ -30,17 +27,20 @@ enum NetworkReachabilityStatus {
     }
 }
 
-class NetReachabilityManager: NSObject {
+class NetReachabilityManager {
 
     /// 当前网络状态
     private(set) var cur_status: NetworkReachabilityStatus = .WiFi
 
-    static let shared = NetReachabilityManager()
+    static let shared: NetReachabilityManager = {
+        let shared = NetReachabilityManager()
+        shared.listen()
+        return shared
+    }()
 
-    private let netManager = NetworkReachabilityManager()
+    private let manager = NetworkReachabilityManager()
 
     func listen() {
-        let manager = NetworkReachabilityManager()
         manager?.startListening { [weak self] status in
             switch status {
             case .unknown:
@@ -48,9 +48,9 @@ class NetReachabilityManager: NSObject {
             case .notReachable:
                 self?.cur_status = .notReachable
             case .reachable:
-                if manager?.isReachableOnCellular ?? false {
+                if self?.manager?.isReachableOnCellular ?? false {
                     self?.cur_status = .cellular
-                } else if manager?.isReachableOnEthernetOrWiFi ?? false {
+                } else if self?.manager?.isReachableOnEthernetOrWiFi ?? false {
                     self?.cur_status = .WiFi
                 }
             }

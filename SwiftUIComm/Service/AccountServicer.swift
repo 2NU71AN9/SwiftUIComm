@@ -30,7 +30,7 @@ extension AccountServicer {
         needLogin = true
     }
     
-    func logout() {
+    func signOut() {
         isLogin = false
         gotoLogin()
     }

@@ -5,9 +5,6 @@
 //  Created by 孙梁 on 2020/12/11.
 //
 
-import UIKit
-import RxCocoa
-import RxSwift
 import Moya
 import SwiftyJSON
 import SLIKit
@@ -49,25 +46,6 @@ internal final class CheckNetStatus: PluginType {
             NetworkHandler.provider.session.cancelAllRequests()
             SLHUD.message(desc: "网络错误,请检查网络设置")
         }
-    }
-}
-
-/// Moya插件: 网络请求时显示loading...
-internal final class ShowCoverProgress: PluginType {
-
-    static let kRequestTargetBegin = PublishSubject<APIService>()
-    static let kRequestTargetEnd = PublishSubject<APIService>()
-
-    /// 在通过网络发送请求(或存根)之前立即调用
-    func willSend(_ request: RequestType, target: TargetType) {
-        guard let target = target as? APIService else { return }
-        Self.kRequestTargetBegin.onNext(target)
-    }
-
-    /// 在收到响应之后调用，但是在MoyaProvider调用它的完成处理程序之前调用
-    func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
-        guard let target = target as? APIService else { return }
-        Self.kRequestTargetEnd.onNext(target)
     }
 }
 

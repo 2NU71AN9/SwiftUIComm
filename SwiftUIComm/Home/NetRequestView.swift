@@ -7,28 +7,16 @@
 
 import SwiftUI
 import Combine
+import SLIKit
 
 struct NetRequestView: View {
     
-    @State var cancellable: AnyCancellable?
-    
+    @StateObject var viewModel = NetRequestViewModel()
+
     var body: some View {
-        Button("点击", action: loadData)
-            .navigationTitle("网络请求")
-    }
-    
-    private func loadData() {
-        cancellable = NetworkHandler.request(.login(account: "17615404066", password: "123456"))
-            .sink { component in
-                switch component {
-                case .finished:
-                    print("完成")
-                case .failure(let error):
-                    print(error)
-                }
-            } receiveValue: { nr in
-                print(nr)
-            }
+        VStack {
+            Text(viewModel.model.token ?? "").padding()
+        }
     }
 }
 
@@ -36,4 +24,30 @@ struct NetRequestView_Previews: PreviewProvider {
     static var previews: some View {
         NetRequestView()
     }
+}
+
+class NetRequestViewModel: ObservableObject {
+    
+    @Published var model = LoginModel()
+    var cancellable: AnyCancellable?
+    
+    init() {
+        loadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.model.token = "1111111"
+        }
+    }
+    
+    private func loadData() {
+        cancellable = NetworkHandler.request(.login(account: "17615404066", password: "123456"))
+            .mapModel(LoginModel.self)
+            .sink(success: { model in
+                self.model = model
+            })
+    }
+}
+
+struct LoginModel: Codable {
+    var token: String?
+    var id: String?
 }

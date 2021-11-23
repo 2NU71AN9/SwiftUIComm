@@ -5,12 +5,8 @@
 //  Created by 孙梁 on 2021/11/20.
 //
 
-import SwiftUI
 import Combine
 import Moya
-import SwiftyJSON
-import SLIKit
-import SwiftUIX
 
 struct NetworkHandler {
     static var provider: MoyaProvider<APIService> = {

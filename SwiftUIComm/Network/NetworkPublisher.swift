@@ -9,6 +9,20 @@ import Combine
 import Moya
 import SLIKit
 
+public extension Publisher {
+    func mapApiError() -> Publishers.MapError<Self, APIError> {
+        mapError { error -> APIError in
+            if let error = error as? APIError {
+                return error
+            } else if let error = error as? MoyaError {
+                return APIError.moyaError(error: error)
+            } else {
+                return APIError.unknown
+            }
+        }
+    }
+}
+
 public extension Publisher where Failure == MoyaError {
     func mapNetworkResponse() -> Publishers.TryMap<Self, NetworkResponse> {
         tryMap { dict -> NetworkResponse in
@@ -28,21 +42,6 @@ public extension Publisher where Failure == MoyaError {
 }
 
 public extension Publisher where Output == NetworkResponse {
-    func mapApiError() -> Publishers.MapError<Self, APIError> {
-        mapError { error -> APIError in
-            if let error = error as? APIError {
-                return error
-            } else if let error = error as? MoyaError {
-                return APIError.moyaError(error: error)
-            } else {
-                return APIError.unknown
-            }
-        }
-    }
-}
-
-public extension Publisher where Output == NetworkResponse {
-    
     func transfromNetworkResponse(_ path: String? = nil) -> Publishers.TryMap<Self, NetworkResponse> {
         tryMap { response -> NetworkResponse in
             var response = response
@@ -54,25 +53,33 @@ public extension Publisher where Output == NetworkResponse {
             return response
         }
     }
-    
-    func mapModel<T: Codable>(_ type: T.Type) -> Publishers.TryMap<Self, T> {
+}
+
+public extension Publisher where Output == NetworkResponse, Failure == APIError {
+    func mapModel<T: Codable>(_ type: T.Type) -> Publishers.HandleEvents<Publishers.MapError<Publishers.TryMap<Self, T>, APIError>> {
         tryMap { res -> T in
             if let dict = res.result as? [String: Any],
-               let model = try? JSONDecoder().decode(T.self, from: Data(dict.description.utf8)) {
+               let data = try? JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted),
+               let model = try? JSONDecoder().decode(T.self, from: data) {
                 return model
             }
             throw APIError.mappingFailed(message: "转Model失败")
         }
+        .mapApiError()
+        .showError()
     }
     
-    func mapModels<T: Codable>(_ type: T.Type) -> Publishers.TryMap<Self, [T]> {
+    func mapModels<T: Codable>(_ type: T.Type) -> Publishers.HandleEvents<Publishers.MapError<Publishers.TryMap<Self, [T]>, APIError>> {
         tryMap { res -> [T] in
             if let array = res.result as? [Any],
-               let models = try? JSONDecoder().decode([T].self, from: Data(array.description.utf8)) {
+               let data = try? JSONSerialization.data(withJSONObject: array, options: .prettyPrinted),
+               let models = try? JSONDecoder().decode([T].self, from: data) {
                 return models
             }
             throw APIError.mappingFailed(message: "转Models失败")
         }
+        .mapApiError()
+        .showError()
     }
 }
 
@@ -92,5 +99,20 @@ public extension Publisher where Failure == APIError {
                 break
             }
         })
+    }
+}
+
+public extension Publisher where Failure == APIError {
+    func sink(success: @escaping ((Output) -> Void), failure: ((Failure) -> Void)? = nil) -> AnyCancellable {
+        sink { completion in
+            switch completion {
+            case .failure(let error):
+                failure?(error)
+            case .finished:
+                break
+            }
+        } receiveValue: { output in
+            success(output)
+        }
     }
 }

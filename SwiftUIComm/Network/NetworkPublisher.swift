@@ -115,4 +115,12 @@ public extension Publisher where Failure == APIError {
             success(output)
         }
     }
+    
+    func assign<Root>(to keyPath: ReferenceWritableKeyPath<Root, Self.Output>, on object: Root, errorPlace place: Output) -> AnyCancellable {
+        self.catch { _ in
+            Just(place)
+        }.assertNoFailure()
+        .eraseToAnyPublisher()
+        .assign(to: keyPath, on: object)
+    }
 }

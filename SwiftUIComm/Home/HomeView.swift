@@ -20,6 +20,7 @@ struct HomeView: View {
             NavigationLink("NaviPagerView") { NaviPagerView() }
             NavigationLink("PagerView") { PagerView() }
             NavigationLink("下拉刷新&上拉加载") { RefreshView() }
+            NavigationLink("Codable") { CodableView() }
         }
         .sl_state()
     }

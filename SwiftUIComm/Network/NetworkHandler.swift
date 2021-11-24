@@ -23,6 +23,7 @@ extension NetworkHandler {
     static func request(_ target: APIService) -> AnyPublisher<NetworkResponse, APIError> {
         provider.requestPublisher(target)
             .mapJSON()
+            .retry(1)
             .mapNetworkResponse()
             .transfromNetworkResponse(target.responsePath)
             .mapApiError()

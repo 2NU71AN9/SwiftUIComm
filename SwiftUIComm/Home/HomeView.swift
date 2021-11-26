@@ -22,6 +22,7 @@ struct HomeView: View {
             NavigationLink("下拉刷新&上拉加载") { RefreshView() }
             NavigationLink("Codable") { CodableView() }
             NavigationLink("GCD") { GCDView() }
+            NavigationLink("RunLoop") { RunLoopView() }
         }
         .sl_state()
     }
@@ -32,4 +33,3 @@ struct HomeView_Previews: PreviewProvider {
         HomeView()
     }
 }
-

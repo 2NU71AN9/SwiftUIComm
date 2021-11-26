@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import RxSwift
 
 struct GCDView: View {
     
@@ -323,6 +324,8 @@ extension GCDView {
         var count = 20
         let semaphore = DispatchSemaphore(value: 1)
 
+        let lock = NSLock()
+        
         concurrentQueue.async {
             saleSafe()
         }
@@ -330,18 +333,22 @@ extension GCDView {
             saleSafe()
         }
         
+        // 使用semaphore或者NSLock加锁
         func saleSafe() {
             while true {
-                semaphore.wait()
+//                semaphore.wait()
+                lock.lock()
                 if count > 0 {
                     count -= 1
                     print("剩余\(count)张")
                 } else {
                     print("卖完了")
-                    semaphore.signal()
+//                    semaphore.signal()
+                    lock.unlock()
                     break
                 }
-                semaphore.signal()
+//                semaphore.signal()
+                lock.unlock()
             }
         }
     }

@@ -41,7 +41,7 @@ class NetRequestViewModel: ObservableObject {
     private func loadData() {
         cancellable = NetworkHandler.request(.login(account: "17615404066", password: "123456"))
             .mapModel(LoginModel.self)
-            .assign(to: \.model, on: self, errorPlace: model)
+            .assign(to: \.model, on: self)
 //            .sink(success: { model in
 //                self.model = model
 //            })

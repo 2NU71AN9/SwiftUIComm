@@ -23,6 +23,8 @@ struct HomeView: View {
             NavigationLink("Codable") { CodableView() }
             NavigationLink("GCD") { GCDView() }
             NavigationLink("RunLoop") { RunLoopView() }
+            NavigationLink("属性包装器") { PropertyWrappersView() }
+            Text(UserDefaults.standard.value(forKey: "MyKey") as? String ?? "")
         }
         .sl_state()
     }

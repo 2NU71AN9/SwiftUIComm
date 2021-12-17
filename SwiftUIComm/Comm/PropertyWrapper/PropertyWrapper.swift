@@ -5,6 +5,8 @@
 //  Created by 孙梁 on 2021/12/6.
 //
 
+import Combine
+
 /// 去除首尾空格与换行
 @propertyWrapper
 struct NoSpace {
@@ -28,28 +30,21 @@ struct NoSpace {
     }
 }
 
-/// 属性持久化UserDefault
 @propertyWrapper
-struct UserDefault<T> {
-    private let key: String
-    private var value: T?
+struct DebouncePublisher<Value> {
+    var wrappedValue: Value {
+        get { subject.value }
+        set { subject.value = newValue }
+    }
+    private let subject: CurrentValueSubject<Value, Never>
+    private let publisher: AnyPublisher<Value, Never>
     
-    var wrappedValue: T? {
-        mutating get {
-            if let value = value {
-                return value
-            }
-            value = UserDefaults.standard.value(forKey: key) as? T
-            return value
-        }
-        set {
-            value = newValue
-            UserDefaults.standard.set(newValue, forKey: key)
-        }
+    var projectedValue: AnyPublisher<Value, Never> {
+        get { publisher }
     }
     
-    init(wrappedValue initialValue: T?, key: String) {
-        self.key = key
-        wrappedValue = initialValue
+    init(wrappedValue: Value, debounce: DispatchQueue.SchedulerTimeType.Stride) {
+        subject = CurrentValueSubject(wrappedValue)
+        publisher = subject.debounce(for: debounce, scheduler: DispatchQueue.global()).eraseToAnyPublisher()
     }
 }

@@ -24,7 +24,7 @@ struct HomeView: View {
             NavigationLink("GCD") { GCDView() }
             NavigationLink("RunLoop") { RunLoopView() }
             NavigationLink("属性包装器") { PropertyWrappersView() }
-            Text(UserDefaults.standard.value(forKey: "MyKey") as? String ?? "")
+            Text(UserDefaults.standard.value(forKey: "AA") as? String ?? "")
         }
         .sl_state()
     }

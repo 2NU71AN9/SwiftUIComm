@@ -15,9 +15,10 @@ class HomeViewModel: ObservableObject {
     
     func asyncTest() {
         Task {
-            //            let _ = await fetch1()
-            //            await taskGroup()
-            await asynclet()
+//            let _ = await fetch1()
+//            await taskGroup()
+//            await asynclet()
+            await asyncComplete()
         }
     }
     
@@ -67,6 +68,7 @@ extension HomeViewModel {
 extension HomeViewModel {
     func asyncComplete() async {
         let new = await fetchNews()
+        print(new)
     }
     
     func fetchNews() async -> String {
@@ -79,7 +81,7 @@ extension HomeViewModel {
     
     func fetchNews(complete: @escaping (String) -> Void) {
         DispatchQueue.main.async {
-            complete("")
+            complete("1234567890")
         }
     }
 }

@@ -45,11 +45,18 @@ struct MyWidgetEntryView : View {
     var entry: Provider.Entry
     var type: WidgetFamily
     
+    init(entry: Provider.Entry, type: WidgetFamily) {
+        self.entry = entry
+        self.type = type
+    }
+    
     var body: some View {
-        Text(Date().getCurrentDayStart(true), style: .timer)
-            .multilineTextAlignment(.center)
-            .font(type.font)
-            .foregroundColor(type.color)
+        ZStack {
+            type.color
+            Text(Date().getCurrentDayStart(true), style: .timer)
+                .multilineTextAlignment(.center)
+                .font(type.font)
+        }
     }
 }
 
@@ -94,16 +101,16 @@ extension WidgetFamily {
 
 //@main
 struct MyWidget: Widget {
-    init() {
-        self.type = .systemSmall
-    }
+    var kind: String = "MyWidgetSmall"
+    var type: WidgetFamily = .systemSmall
     
-    init(type: WidgetFamily) {
+    init() {
+        
+    }
+    init(kind: String, type: WidgetFamily) {
+        self.kind = kind
         self.type = type
     }
-    
-    let kind: String = "MyWidget"
-    var type: WidgetFamily
     
     var body: some WidgetConfiguration {
         IntentConfiguration(kind: kind, intent: ConfigurationIntent.self, provider: Provider()) { entry in
@@ -119,10 +126,9 @@ struct MyWidget: Widget {
 struct CustomWidgetBundle: WidgetBundle {
     @WidgetBundleBuilder
     var body: some Widget {
-        // 这样不行, 得建不同组件
-        MyWidget(type: .systemLarge)
-        MyWidget(type: .systemMedium)
-        MyWidget(type: .systemSmall)
+        MyWidget(kind: "MyWidgetSmall", type: .systemSmall)
+        MyWidget(kind: "MyWidgetMedium", type: .systemMedium)
+        MyWidget(kind: "MyWidgetLarge", type: .systemLarge)
     }
 }
 

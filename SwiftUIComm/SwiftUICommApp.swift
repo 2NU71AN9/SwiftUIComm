@@ -14,12 +14,13 @@ struct SwiftUICommApp: App {
     @Environment(\.scenePhase) var scenePhase
 
     @State private var firstIn = true
+    @ObservedObject private var shared = AccountServicer.shared
     
     var body: some Scene {
         WindowGroup {
             Tabbar()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
-                .environmentObject(AccountServicer.shared)
+                .environmentObject(shared)
         }
         .onChange(of: scenePhase) { newValue in
             switch newValue {

@@ -11,11 +11,22 @@ import SLIKit
 
 struct DiscoverView: View {
     
-    @StateObject var vm = DiscoverViewModel()
+    @StateObject private var vm = DiscoverViewModel()
+    
+    @State private var index = 1
     
     var body: some View {
-        Text("发现")
-            .sl_state()
+        if #available(iOS 15.0, *) {
+            Text("\(index)")
+                .sl_state()
+                .task {
+                    try? await Task.sleep(nanoseconds: 1000000000)
+                    index += 1
+                    print("###########=>", index)
+                }
+        } else {
+            Text("")
+        }
     }
 }
 

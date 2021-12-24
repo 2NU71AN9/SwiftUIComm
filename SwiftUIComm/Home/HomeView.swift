@@ -15,16 +15,21 @@ struct HomeView: View {
 
     var body: some View {
         List {
-            NavigationLink("网络请求") { NetRequestView() }
-            NavigationLink("自定义返回") { SecondView() }
-            NavigationLink("NaviPagerView") { NaviPagerView() }
-            NavigationLink("PagerView") { PagerView() }
-            NavigationLink("下拉刷新&上拉加载") { RefreshView() }
-            NavigationLink("Codable") { CodableView() }
-            NavigationLink("GCD") { GCDView() }
-            NavigationLink("RunLoop") { RunLoopView() }
-            NavigationLink("属性包装器") { PropertyWrappersView() }
-            Text(UserDefaults.standard.value(forKey: "AA") as? String ?? "")
+            Group {
+                NavigationLink("网络请求") { NetRequestView() }
+                NavigationLink("自定义返回") { SecondView() }
+                NavigationLink("NaviPagerView") { NaviPagerView() }
+                NavigationLink("PagerView") { PagerView() }
+                NavigationLink("下拉刷新&上拉加载") { RefreshView() }
+                NavigationLink("Codable") { CodableView() }
+                NavigationLink("GCD") { GCDView() }
+                NavigationLink("RunLoop") { RunLoopView() }
+                NavigationLink("属性包装器") { PropertyWrappersView() }
+                Text(UserDefaults.standard.value(forKey: "AA") as? String ?? "")
+            }
+            Group {
+                NavigationLink("自定义环境变量") { CustomEnviroment() }
+            }
         }
         .sl_state()
     }

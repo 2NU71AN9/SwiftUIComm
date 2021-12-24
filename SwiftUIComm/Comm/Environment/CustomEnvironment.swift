@@ -8,16 +8,52 @@
 import SwiftUI
 import SLIKit
 
+extension EnvironmentValues {
+    var rootVC: UIViewController? {
+        self[ViewControllerKey.self].root
+    }
+    
+    var safeAreaInsets: EdgeInsets {
+        self[SafeAreaInsetsKey.self]
+    }
+}
+
+
 struct ViewControllerHolder {
     var root: UIViewController?
 }
-struct ViewControllerKey: EnvironmentKey {
+
+private struct ViewControllerKey: EnvironmentKey {
     static var defaultValue: ViewControllerHolder {
         ViewControllerHolder(root: SL.WINDOW?.rootViewController)
     }
 }
-extension EnvironmentValues {
-    var rootVC: UIViewController? {
-        self[ViewControllerKey.self].root
+
+
+
+private struct SafeAreaInsetsKey: EnvironmentKey {
+    static var defaultValue: EdgeInsets {
+        UIApplication.shared.keyWindow?.safeAreaInsets.swiftUiInsets ?? EdgeInsets()
+    }
+}
+
+private extension UIEdgeInsets {
+    var swiftUiInsets: EdgeInsets {
+        EdgeInsets(top: top, leading: left, bottom: bottom, trailing: right)
+    }
+}
+
+extension UIApplication {
+    var keyWindow: UIWindow? {
+        connectedScenes
+            .compactMap {
+                $0 as? UIWindowScene
+            }
+            .flatMap {
+                $0.windows
+            }
+            .first {
+                $0.isKeyWindow
+            }
     }
 }

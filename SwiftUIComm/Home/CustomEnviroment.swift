@@ -10,8 +10,9 @@ import SLIKit
 
 struct CustomEnviroment: View {
     
-    @Environment(\.ce) var customEn: String
-    @Environment(\.rootVC) var rootVC: UIViewController?
+    @Environment(\.ce) var customEn
+    @Environment(\.rootVC) var rootVC
+    @Environment(\.safeAreaInsets) var safeAreaInsets
     
     var body: some View {
         VStack {
@@ -23,6 +24,7 @@ struct CustomEnviroment: View {
                 .padding()
             Text(customEn)
                 .navigationTitle("自定义环境变量")
+            Text("上: \(safeAreaInsets.top), 左: \(safeAreaInsets.leading), 下: \(safeAreaInsets.bottom), 右: \(safeAreaInsets.trailing)")
         }
     }
 }

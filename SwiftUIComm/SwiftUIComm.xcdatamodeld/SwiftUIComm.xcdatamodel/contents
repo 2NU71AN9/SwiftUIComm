@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="false" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="21C52" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Book" representedClassName="Book" syncable="YES" codeGenerationType="class">
+        <attribute name="isbm" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="page" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="borrowBy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Reader" inverseName="borrow" inverseEntity="Reader"/>
+    </entity>
     <entity name="Item" representedClassName="Item" syncable="YES" codeGenerationType="class">
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
+    <entity name="Reader" representedClassName="Reader" syncable="YES" codeGenerationType="class">
+        <attribute name="idCard" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="borrow" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="borrowBy" inverseEntity="Book"/>
+    </entity>
     <elements>
-        <element name="Item" positionX="-63" positionY="-18" width="128" height="44"/>
+        <element name="Item" positionX="-197.9136962890625" positionY="-251.4423522949219" width="128" height="44"/>
+        <element name="Book" positionX="-359.1332397460938" positionY="60.5758056640625" width="128" height="103"/>
+        <element name="Reader" positionX="-70.9178466796875" positionY="75.61798095703125" width="136.868896484375" height="88"/>
     </elements>
 </model>

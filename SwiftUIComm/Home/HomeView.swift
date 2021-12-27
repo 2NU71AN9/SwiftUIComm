@@ -29,6 +29,7 @@ struct HomeView: View {
             }
             Group {
                 NavigationLink("自定义环境变量") { CustomEnviroment() }
+                NavigationLink("Core Data") { CoreDataView() }
             }
         }
         .sl_state()

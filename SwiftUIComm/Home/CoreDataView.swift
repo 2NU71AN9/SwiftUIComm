@@ -9,15 +9,28 @@ import SwiftUI
 import CoreData
 
 struct CoreDataView: View {
+    
+    @Environment(\.managedObjectContext) var moc
+    
+    @FetchRequest(entity: Book.entity(), sortDescriptors: [], animation: .default)
+    private var books: FetchedResults <Book>
+    
     var body: some View {
-        Text("Core Data")
-            .onAppear {
-                func1()
+        List {
+            ForEach(books) { book in
+                Text("\(book.name ?? "")")
             }
+            Button("添加", action: createBook)
+            Button("修改", action: modifyBook)
+            Button("删除", action: deleteBook)
+        }
+        .onAppear {
+//            func1()
+        }
     }
     
     func func1() {
-        PersistenceController.shared.parseEntities()
+        parseEntities()
         createBook()
         readBooks()
         modifyBook()
@@ -33,16 +46,31 @@ struct CoreDataView_Previews: PreviewProvider {
 
 extension CoreDataView {
     
+    func parseEntities() {
+        let entities = PersistenceController.shared.container.managedObjectModel.entities
+        print("Entity count = \(entities.count)\n")
+        for entity in entities {
+            print("Entity: \(entity.name!)")
+            for property in entity.properties {
+                print("Property: \(property.name)")
+            }
+            print("")
+        }
+    }
+    
     private func createBook() {
-        let context = PersistenceController.shared.container.viewContext
-        let book = NSEntityDescription.insertNewObject(forEntityName: "Book",
-                                                        into: context) as! Book
+        
+//        let moc = PersistenceController.shared.container.viewContext
+//        let book = NSEntityDescription.insertNewObject(forEntityName: "Book",
+//                                                        into: moc) as! Book
+        
+        let book = Book(context: moc)
         book.name = "三体"
         book.isbm = "isbm1"
         book.page = Int32(800)
-        if context.hasChanges {
+        if moc.hasChanges {
             do {
-                try context.save()
+                try moc.save()
                 print("Insert new book 三体 successful.")
             } catch {
                 print("\(error)")

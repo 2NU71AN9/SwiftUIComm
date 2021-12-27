@@ -42,17 +42,3 @@ struct PersistenceController {
         })
     }
 }
-
-extension PersistenceController {
-    func parseEntities() {
-        let entities = container.managedObjectModel.entities
-        print("Entity count = \(entities.count)\n")
-        for entity in entities {
-            print("Entity: \(entity.name!)")
-            for property in entity.properties {
-                print("Property: \(property.name)")
-            }
-            print("")
-        }
-    }
-}

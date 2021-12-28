@@ -37,6 +37,7 @@ struct HomeView: View {
                 }.sheet(isPresented: $sheet) {
                     DisableSheetView()
                 }
+                NavigationLink("UIView") { CustomUIView() }
             }
         }
         .sl_state()

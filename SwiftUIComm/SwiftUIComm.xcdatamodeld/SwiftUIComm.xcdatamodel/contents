@@ -15,8 +15,8 @@
         <relationship name="borrow" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Book" inverseName="borrowBy" inverseEntity="Book"/>
     </entity>
     <elements>
-        <element name="Item" positionX="-197.9136962890625" positionY="-251.4423522949219" width="128" height="44"/>
         <element name="Book" positionX="-359.1332397460938" positionY="60.5758056640625" width="128" height="103"/>
+        <element name="Item" positionX="-197.9136962890625" positionY="-251.4423522949219" width="128" height="44"/>
         <element name="Reader" positionX="-70.9178466796875" positionY="75.61798095703125" width="136.868896484375" height="88"/>
     </elements>
 </model>

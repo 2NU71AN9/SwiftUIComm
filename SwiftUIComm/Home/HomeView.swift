@@ -13,6 +13,8 @@ struct HomeView: View {
 
     @StateObject var vm = HomeViewModel()
 
+    @State private var sheet = false
+    
     var body: some View {
         List {
             Group {
@@ -30,6 +32,11 @@ struct HomeView: View {
             Group {
                 NavigationLink("自定义环境变量") { CustomEnviroment() }
                 NavigationLink("Core Data") { CoreDataView() }
+                Button("Sheet") {
+                    sheet.toggle()
+                }.sheet(isPresented: $sheet) {
+                    DisableSheetView()
+                }
             }
         }
         .sl_state()

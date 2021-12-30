@@ -38,6 +38,7 @@ struct HomeView: View {
                     DisableSheetView()
                 }
                 NavigationLink("UIView") { CustomUIView() }
+                NavigationLink("UIViewController") { CustomUIViewController() }
             }
         }
         .sl_state()

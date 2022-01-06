@@ -40,6 +40,7 @@ struct HomeView: View {
                     }
                     NavigationLink("UIView") { CustomUIView() }
                     NavigationLink("UIViewController") { CustomUIViewController() }
+                    NavigationLink("搜索列表") { SearchingListView() }
                 }
             }
             .refreshable {

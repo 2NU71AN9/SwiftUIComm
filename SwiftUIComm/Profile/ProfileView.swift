@@ -13,7 +13,8 @@ struct ProfileView: View {
     @StateObject var vm = ProfileViewModel()
     
     var body: some View {
-        Text("我的")
+        // 支持markdown
+        Text("***我的***")
             .toolbar {
                 ToolbarItem {
                     Button("退出登录") {

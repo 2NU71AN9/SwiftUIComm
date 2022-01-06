@@ -30,6 +30,7 @@ class NetRequestViewModel: ObservableObject {
     
     @Published var model = LoginModel()
     var cancellable: AnyCancellable?
+    var cancellables = Set<AnyCancellable>()
     
     init() {
         loadData()
@@ -39,12 +40,24 @@ class NetRequestViewModel: ObservableObject {
     }
     
     private func loadData() {
-        cancellable = NetworkHandler.request(.login(account: "17615404066", password: "123456"))
-            .mapModel(LoginModel.self)
-            .assign(to: \.model, on: self)
-//            .sink(success: { model in
-//                self.model = model
-//            })
+////        cancellable =
+//        NetworkHandler.request(.login(account: "17615404066", password: "123456"))
+//            .mapModel(LoginModel.self)
+//            .assign(to: \.model, on: self)
+////            .sink(success: { model in
+////                self.model = model
+////            })
+//            .store(in: &cancellables)
+        
+        Task {
+            do {
+                model = try await NetworkHandler.request(.login(account: "17615404066", password: "123456"))
+                    .mapModel(LoginModel.self)
+                    .sink(store: &cancellables)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
 

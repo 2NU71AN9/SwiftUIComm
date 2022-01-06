@@ -123,4 +123,14 @@ public extension Publisher where Failure == APIError {
         .eraseToAnyPublisher()
         .assign(to: keyPath, on: object)
     }
+    
+    func sink(store: inout Set<AnyCancellable>) async throws -> Output {
+        try await withCheckedThrowingContinuation { continuation in
+            sink { output in
+                continuation.resume(returning: output)
+            } failure: { error in
+                continuation.resume(throwing: error)
+            }.store(in: &store)
+        }
+    }
 }

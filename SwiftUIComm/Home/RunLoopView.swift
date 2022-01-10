@@ -68,6 +68,18 @@ struct RunLoopView: View {
             print("未开启RunLoop")
         }
     }
+    
+    /**
+     保证子线程数据回来更新UI的时候不打断用户的滑动操作
+     将更新UI事件放在主线程的NSDefaultRunLoopMode上执行即可，这样就会等用户不再滑动页面，主线程RunLoop由UITrackingRunLoopMode切换到NSDefaultRunLoopMode时再去更新UI
+     */
+//    func loadData() {
+//        // 数据请求完成后调用
+//        performSelector(onMainThread: #selector(refreshUI), with: nil, waitUntilDone: false, modes: [RunLoop.Mode.default.rawValue])
+//    }
+//    @objc func refreshUI() {
+//
+//    }
 }
 
 struct RunLoopView_Previews: PreviewProvider {

@@ -289,7 +289,7 @@ extension GCDView {
             //发送一个信号，让信号总量加 1
             semaphore.signal()
         }
-        //可以使总信号量减 1，信号总量小于 0 时就会一直等待（阻塞所在线程），否则就可以正常执行。
+        //判断信号量的值>=1，会对信号量的值减1，然后当前任务可以执行, 信号量<=0时会一直等待, 阻塞所在线程
         semaphore.wait()
         print("end--", Thread.current)
     }
